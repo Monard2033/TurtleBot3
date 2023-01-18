@@ -6,10 +6,10 @@ import cv2
 import numpy as np
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from decimal import *
+#from field_of_view import *
 
-image = cv2.imread('/home/monard2033/catkin_ws/src/line_of_sight/world.pgm')
-imageo = cv2.imread('/home/monard2033/catkin_ws/src/line_of_sight/result.png')
-
+image = cv2.imread('/home/monard2033/catkin_ws/src/goaler/src/world.pgm')
+imageo = cv2.imread('/home/monard2033/catkin_ws/src/goaler/src/result.png')
 def movebase_client(crt_map):
     print(crt_map[0],crt_map[1])
     client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
@@ -19,7 +19,7 @@ def movebase_client(crt_map):
     goal.target_pose.header.frame_id = "map"
     goal.target_pose.header.stamp = rospy.Time.now()
     goal.target_pose.pose.position.x = crt_map[0] #0.001 #-2.622 #2.403
-    goal.target_pose.pose.position.y = crt_map[1] #crt_map[0] #0.001 #-2.294 #2.294
+    goal.target_pose.pose.position.y = crt_map[1] #0.001 #-2.294 #2.294
     goal.target_pose.pose.orientation.z = 1.0
     goal.target_pose.pose.orientation.w = -4.3
 
@@ -41,27 +41,17 @@ def calculate_goal():
     for x in range(0,width):
      for y in range(0,height):
         crt = np.array([x, y])
-        crt0=Decimal(x)/Decimal(76.43)
-        crt1=Decimal(y)/Decimal(83.7)
-        crt2=round(crt0,5)
-        crt3=round(crt1,5)
-        if(crt0>= Decimal(1.13)):
-            crt1=Decimal(y)/Decimal(102.4)
+        crt0=Decimal(x)/Decimal(94.81)
+        crt1=Decimal(y)/Decimal(89.3)
+        if(crt0>=Decimal(1.00) or crt0<=Decimal(-1.30)):
+            crt1=Decimal(y)/Decimal(108.4)
+        if(crt1>=Decimal(1.91) or crt1<=Decimal(-2.00)): 
+            crt0=Decimal(x)/Decimal(126)
         if check_point(crt):
-            print("x=",crt2, "y=",crt3)
-            return np.array([-crt2,-crt3])
-        #varx = Decimal(225//x)
-        #vary = Decimal(195//y)
-        #print(Decimal(varx),Decimal(vary))
-        #crt0=Decimal(x)//76.43 #(76.43)
-        #crt1=Decimal(y)//83.7 #(83.7)
-        #if(crt0>= Decimal(1.13)):
-        #  crt1=Decimal(y)/Decimal(102.4)
-        #if(crt0>=Decimal(225)/Decimal(varx)):
-        #    crt0= -abs(crt0)
-        #if check_point(crt):
-        # return np.array([crt0,crt1])
-     #exit(0)
+            crt2=round(crt0,5)
+            crt3=round(crt1,5)
+            print("x=",crt0, "y=",crt1)
+            return np.array([crt2,crt3])
 
 
 if __name__ == '__main__':

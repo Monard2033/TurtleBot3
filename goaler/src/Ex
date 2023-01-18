@@ -2,7 +2,7 @@ include <stdio.h>
 
 int main()
 {
-    varx = (225//(0.85+4.1)
+    varx = (225//(0.85+4.1))
      vary = (195//(0.85+3.8))
      printf("%2f %2f",varx,vary)
 }
